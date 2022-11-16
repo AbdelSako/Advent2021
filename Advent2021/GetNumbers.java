@@ -28,6 +28,8 @@ public class GetNumbers {
         }
         System.out.println(totalIncreases);
 
+// Day 1 Part 2
+
         int previous = 0;
         int current = 1;
         int next = 2;
