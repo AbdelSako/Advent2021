@@ -36,6 +36,9 @@ public class GetPositioning {
 
         System.out.println(horizontalProgress);
         System.out.println(verticalProgress);
+
+        int finalHorizontalTimesFinalVertical = horizontalProgress * verticalProgress;
+        System.out.println(finalHorizontalTimesFinalVertical);
     }
 }
 
