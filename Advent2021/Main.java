@@ -4,10 +4,14 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        //Day 1 Part 1
+        // Day 1
         //GetNumbers.getNumbers();
 
-        GetPositioning.getPositioning();
+        // Day 2
+        //GetPositioning.getPositioning();
+
+        // Day 3
+        GetPowerConsumption.getPowerConsumption();
     }
 
 

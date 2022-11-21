@@ -5,9 +5,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//Day 1 Part 1
+
 
 public class GetNumbers {
+
+// Day 1 Part 1
     public static void getNumbers() throws FileNotFoundException {
         int totalIncreases = 0;
         int i = 0;
