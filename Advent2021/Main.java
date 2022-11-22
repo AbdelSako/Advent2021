@@ -1,7 +1,6 @@
 package Advent2021;
 
 import java.io.IOException;
-
 public class Main {
     public static void main(String[] args) throws IOException {
         // Day 1
@@ -10,12 +9,11 @@ public class Main {
         // Day 2
         //GetPositioning.getPositioning();
 
-        // Day 3
-        GetPowerConsumption.getPowerConsumption();
+        // Day 3 Part 1
+        //GetPowerConsumption.getPowerConsumption();
+        // Day 3 Part 2
+        //OxygenGeneratorRating.oxygenGeneratorRating();
+        //COScrubberRating.coScrubberRating();
+
     }
-
-
 }
-
-
-

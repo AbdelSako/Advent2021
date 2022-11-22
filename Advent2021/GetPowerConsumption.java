@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 public class GetPowerConsumption {
+
+// Day 3 Part 1
     public static void getPowerConsumption() throws FileNotFoundException {
         FileReader reader = new FileReader("/Users/main/Projects/Advent2021/src/Advent2021/diagnosticReport.txt");
         Scanner scanner = new Scanner(reader);
