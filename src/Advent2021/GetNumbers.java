@@ -5,7 +5,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+
 public class GetNumbers {
+
+// Day 1 Part 1
     public static void getNumbers() throws FileNotFoundException {
         int totalIncreases = 0;
         int i = 0;
@@ -25,5 +29,33 @@ public class GetNumbers {
             i++;
         }
         System.out.println(totalIncreases);
+
+// Day 1 Part 2
+
+        int previous = 0;
+        int current = 1;
+        int next = 2;
+        int sumOfThree = 0;
+        ArrayList<Integer> sumsToCompare = new ArrayList<>();
+        for (int j = 0; j < numberList.size() - 2; j++) {
+            sumOfThree = numberList.get(previous) + numberList.get(current) + numberList.get(next);
+            sumsToCompare.add(sumOfThree);
+            previous++;
+            current++;
+            next++;
+        }
+        System.out.println(sumsToCompare);
+        System.out.println(sumsToCompare.size());
+
+        totalIncreases = 0;
+        i = 0;
+        for (int count = 1; count < sumsToCompare.size(); count++) {
+            if (sumsToCompare.get(i) < sumsToCompare.get(i + 1)) {
+                totalIncreases++;
+            }
+            i++;
+        }
+        System.out.println(totalIncreases);
     }
 }
+
