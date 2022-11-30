@@ -67,31 +67,15 @@ public class PlayBingo2 {
                 //System.out.println(Arrays.deepToString(individualBingoCard));
                 allBingoCards.add(countOfBingoCardIterations, Arrays.deepToString(individualBingoCard));
                 //System.out.println(allBingoCards);
+                //System.out.println(allBingoCards.size());
                 countOfBingoCardIterations++;
             }
         }
         //System.out.println(countOfBingoCardIterations);
     }
 
-    public static void
+   // public static void
 }
-
-/*                for (int initialize = 0; initialize < 100; initialize++) {
-                    allBingoCards.add(initialize, );
-                }
-
-                allBingoCards.add(bingoCardCount, individualBingoCard);
-                bingoCardCount++;
-                System.out.println(allBingoCards.size());
-                *//*for (int i = 0; i < allBingoCards.size(); i ++) {
-                    String[][] listOfCards = allBingoCards.get(i);
-                    System.out.println(listOfCards);
-                }*//*
-            }
-        }
-
-    }
-}*/
 
 
 //if card has a bingo, The score of the winning board can now be calculated.
