@@ -16,7 +16,10 @@ public class Main {
         //COScrubberRating.coScrubberRating();
 
         // Day 4 Part 1
-        PlayBingo.loadBingoList();
+        PlayBingo2.loadBingoList();
+        PlayBingo2.loadNumbersCalled();
+        PlayBingo2.loadBingoCards();
+        //PlayBingo.compareBingoNumbers();
 
     }
 }
