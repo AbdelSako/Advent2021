@@ -19,6 +19,8 @@ public class PlayBingo2 {
     private static List<String> numbersCalledForBingo = new ArrayList<>();
     private static FileReader bingoNumbersCalled = null;
     private static FileReader bingoCardList = null;
+    private static List<String> allBingoCards = new ArrayList<>();
+    private static String[][] individualBingoCard = new String[5][5];
 
 
     public static void loadBingoList() {
@@ -48,8 +50,6 @@ public class PlayBingo2 {
     }
 
     public static void loadBingoCards() {
-        String[][] individualBingoCard = new String[5][5];
-        List<String> allBingoCards = new ArrayList<>();
         int countOfBingoCardIterations = 0;
 
         if (bingoCardList != null) {
@@ -74,7 +74,21 @@ public class PlayBingo2 {
         //System.out.println(countOfBingoCardIterations);
     }
 
-   // public static void
+    public static void searchBingoCardForMatches() {
+        //this is checking one individual card for matches number by number
+        for (int pullNextNumber = 0; pullNextNumber < numbersCalledForBingo.size(); pullNextNumber++) {
+            for (int rowInCard = 0; rowInCard < 5; rowInCard++) {
+                for (int colInCard = 0; colInCard < 5; colInCard++){
+                    if (individualBingoCard[rowInCard][colInCard].equals(numbersCalledForBingo.get(pullNextNumber))) {
+                        System.out.println("Matched " + numbersCalledForBingo.get(pullNextNumber) +
+                                " at " + "(" + rowInCard + "," + colInCard + ") with the " +
+                                (pullNextNumber + 1) + " number called.");
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 
