@@ -21,6 +21,7 @@ public class PlayBingo2 {
     private static FileReader bingoCardList = null;
     private static List<String> allBingoCards = new ArrayList<>();
     private static String[][] individualBingoCard = new String[5][5];
+    static int cardCount = 1;
 
 
     public static void loadBingoList() {
@@ -49,8 +50,8 @@ public class PlayBingo2 {
         }
     }
 
-    public static void loadBingoCards() {
-        int countOfBingoCardIterations = 0;
+    public static void checkBingoCards() {
+        //int countOfBingoCardIterations = 0;
 
         if (bingoCardList != null) {
             cardScanner = new Scanner(bingoCardList);
@@ -63,18 +64,12 @@ public class PlayBingo2 {
                         individualBingoCard[rowOfCard][columnOfCard] = nextBingoNumber;
                     }
                 }
-
-                //System.out.println(Arrays.deepToString(individualBingoCard));
-                allBingoCards.add(countOfBingoCardIterations, Arrays.deepToString(individualBingoCard));
-                //System.out.println(allBingoCards);
-                //System.out.println(allBingoCards.size());
-                countOfBingoCardIterations++;
+                iterateThroughEachCard();
             }
         }
-        //System.out.println(countOfBingoCardIterations);
     }
 
-    public static void searchBingoCardForMatches() {
+    public static void iterateThroughEachCard() {
         //this is checking one individual card for matches number by number
         for (int pullNextNumber = 0; pullNextNumber < numbersCalledForBingo.size(); pullNextNumber++) {
             for (int rowInCard = 0; rowInCard < 5; rowInCard++) {
@@ -87,6 +82,9 @@ public class PlayBingo2 {
                 }
             }
         }
+        System.out.println("Current Card is " + cardCount);
+        cardCount++;
+        System.out.println("Next Card is " + cardCount);
     }
 
 }

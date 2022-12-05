@@ -21,8 +21,8 @@ public class Main {
         // Day 4 Part 1
         loadBingoList();
         loadNumbersCalled();
-        loadBingoCards();
-        searchBingoCardForMatches();
-
+        checkBingoCards();
+        //searchBingoCardForMatches();
+        //rotateThroughBingoCards();
     }
 }
