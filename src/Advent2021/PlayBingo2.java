@@ -14,26 +14,30 @@ import java.io.FileReader;
 import java.util.*;
 
 public class PlayBingo2 {
-    private static Scanner cardScanner = null;
-    private static Scanner numberScanner = null;
+    /* Day 4 Part 1
+     * If all numbers in any row or any column of a board are marked, that board wins. (Diagonals don't count.)
+     * The score of the winning board can now be calculated. Start by finding the sum of all unmarked numbers
+     * on that board. Then, multiply that sum by the number that was just called when the board won.
+     */
     private static FileReader bingoNumbersCalled = null;
     private static FileReader bingoCardList = null;
-    private static List<String> numbersCalledForBingo = new ArrayList<>();
-    private static String[][] individualBingoCard = new String[5][5];
-    private static String[][] previousBingoCard = new String[5][5];
-    private static String[][] yesOrNoBingo = new String[5][5];
-    private static int cardCount = 1;
+    private static final List<String> numbersCalledForBingo = new ArrayList<>();
+    private static final String[][] individualBingoCard = new String[5][5];
+    private static final String[][] previousBingoCard = new String[5][5];
+    private static final String[][] yesOrNoBingo = new String[5][5];
+    private static String[][] previousYesOrNoBingo = new String[5][5];
     private static int countToBingo = 1;
     private static int previousCountToBingo = 1;
+    private static int winningNumber = 0;
+    //private static int cardCount = 1;
 
 
-    public static void loadBingoList() {
+    private static void loadBingoList() {
         try {
             bingoNumbersCalled = new FileReader("/Users/main/Projects/Advent2021/src/Advent2021/bingoNumbersCalled2.txt");
         } catch (FileNotFoundException fileNotFound) {
             System.out.println("Bingo Numbers Called not found");
         }
-
         try {
             bingoCardList = new FileReader("/Users/main/Projects/Advent2021/src/Advent2021/bingoNumberList2");
         } catch (FileNotFoundException fileNotFound) {
@@ -41,9 +45,9 @@ public class PlayBingo2 {
         }
     }
 
-    public static void loadNumbersCalled() {
+    private static void loadNumbersCalled() {
         if (bingoNumbersCalled != null) {
-            numberScanner = new Scanner(bingoNumbersCalled);
+            Scanner numberScanner = new Scanner(bingoNumbersCalled);
             while (numberScanner.hasNext()) {
                 numberScanner.useDelimiter(",");
                 String bingoNumber = numberScanner.next();
@@ -54,12 +58,13 @@ public class PlayBingo2 {
     }
 
     public static void checkBingoCards() {
+        loadBingoList();
+        loadNumbersCalled();
         setPreviousBingoCard();
         if (bingoCardList != null) {
-            cardScanner = new Scanner(bingoCardList);
+            Scanner cardScanner = new Scanner(bingoCardList);
             cardScanner.useDelimiter("\\s+|\\n");
             while (cardScanner.hasNext()) {
-
                 for (int rowOfCard = 0; rowOfCard < 5; rowOfCard++) {
                     for (int columnOfCard = 0; columnOfCard < 5; columnOfCard++) {
                         String nextBingoNumber = cardScanner.next("\\d+");
@@ -73,21 +78,20 @@ public class PlayBingo2 {
     }
 
     private static void iterateThroughEachCard() {
-        //this is checking one individual card for matches number by number
-        outerLoop: for (int pullNextNumber = 0; pullNextNumber < numbersCalledForBingo.size(); pullNextNumber++) {
+        outerLoop:
+        for (int pullNextNumber = 0; pullNextNumber < numbersCalledForBingo.size(); pullNextNumber++) {
             for (int rowInCard = 0; rowInCard < 5; rowInCard++) {
-                for (int colInCard = 0; colInCard < 5; colInCard++){
+                for (int colInCard = 0; colInCard < 5; colInCard++) {
                     if (individualBingoCard[rowInCard][colInCard].equals(numbersCalledForBingo.get(pullNextNumber))) {
                         //System.out.println("Matched " + numbersCalledForBingo.get(pullNextNumber) +
                         //        " at " + "(" + rowInCard + "," + colInCard + ") with the " +
                         //        (pullNextNumber + 1) + " number called.");
-
                         yesOrNoBingo[rowInCard][colInCard] = "Yes";
                         //System.out.println(Arrays.deepToString(yesOrNoBingo));
                         //System.out.println(Arrays.deepToString(individualBingoCard));
-
                         if (isBingo()) {
                             //System.out.println("Bingo! at " + (pullNextNumber + 1));
+                            winningNumber = Integer.parseInt(numbersCalledForBingo.get(pullNextNumber));
                             countToBingo = pullNextNumber + 1;
                             //System.out.println("Previous count to Bingo; " + previousCountToBingo);
                             //System.out.println("Current count to Bingo: " + countToBingo);
@@ -95,12 +99,11 @@ public class PlayBingo2 {
                             break outerLoop;
                         }
                     }
-
                 }
             }
         }
-        System.out.println("Current Card is " + cardCount);
-        cardCount++;
+        //System.out.println("Current Card is " + cardCount);
+        //cardCount++;
         //System.out.println("Next Card is " + cardCount);
     }
 
@@ -138,14 +141,26 @@ public class PlayBingo2 {
                 System.arraycopy(individualBingoCard[i], 0, previousBingoCard[i], 0,
                         previousBingoCard[0].length);
             }
-            System.out.println("Current previous winner: " + Arrays.deepToString(previousBingoCard));
+            //System.out.println("Current previous winner: " + Arrays.deepToString(previousBingoCard));
             previousCountToBingo = countToBingo;
+            int previousWinningNumber = winningNumber;
+            System.out.println("Previous winning number: " + previousWinningNumber);
+            previousYesOrNoBingo = yesOrNoBingo;
+            calculateWinningBoard();
         }
     }
+
+    private static void calculateWinningBoard() {
+        long sumUnmarkedNumbers = 0L;
+        for (int rowOfCard = 0; rowOfCard < 5; rowOfCard++) {
+            for (int colOfCard = 0; colOfCard < 5; colOfCard++) {
+                if (previousYesOrNoBingo[rowOfCard][colOfCard].equals("No")) {
+                    sumUnmarkedNumbers += Integer.parseInt(previousBingoCard[rowOfCard][colOfCard]);
+                    //System.out.println(sumUnmarkedNumbers);
+                }
+            }
+        }
+        sumUnmarkedNumbers *= winningNumber;
+        System.out.println(sumUnmarkedNumbers);
+    }
 }
-
-
-//if card has a bingo, The score of the winning board can now be calculated.
-// Start by finding the sum of all unmarked numbers on that board.
-// Then, multiply that sum by the number that was just called when the board won.
-
