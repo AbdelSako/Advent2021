@@ -19,10 +19,6 @@ public class Main {
         //COScrubberRating.coScrubberRating();
 
         // Day 4 Part 1
-        //loadBingoList();
-        //loadNumbersCalled();
         checkBingoCards();
-        //searchBingoCardForMatches();
-        //rotateThroughBingoCards();
     }
 }
