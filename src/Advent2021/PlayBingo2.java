@@ -9,8 +9,10 @@
 
 package Advent2021;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class PlayBingo2 {
@@ -24,11 +26,14 @@ public class PlayBingo2 {
     private static final List<String> numbersCalledForBingo = new ArrayList<>();
     private static final String[][] individualBingoCard = new String[5][5];
     private static final String[][] previousBingoCard = new String[5][5];
+    private static final String[][] previousLoseWinningBingoCard = new String[5][5];
     private static final String[][] yesOrNoBingo = new String[5][5];
     private static String[][] previousYesOrNoBingo = new String[5][5];
     private static int countToBingo = 1;
     private static int previousCountToBingo = 1;
     private static int winningNumber = 0;
+    private static int loseNumber = 0;
+    private static String desireToWin = "Not set";
     //private static int cardCount = 1;
 
 
@@ -57,9 +62,24 @@ public class PlayBingo2 {
         }
     }
 
+    private static void doYouWantToWin() {
+        Scanner wantToWin = new Scanner(System.in);
+        System.out.println("What would you like to do? Please enter Win or Lose: ");
+        desireToWin = wantToWin.nextLine();
+        if (desireToWin.equalsIgnoreCase("Win")) {
+            desireToWin = "Win";
+        } else if (desireToWin.equalsIgnoreCase("Lose")) {
+            desireToWin = "Lose";
+        } else {
+            System.out.println("Please enter Win or Lose.");
+            doYouWantToWin();
+        }
+    }
+
     public static void checkBingoCards() {
         loadBingoList();
         loadNumbersCalled();
+        doYouWantToWin();
         setPreviousBingoCard();
         if (bingoCardList != null) {
             Scanner cardScanner = new Scanner(bingoCardList);
@@ -72,7 +92,13 @@ public class PlayBingo2 {
                         yesOrNoBingo[rowOfCard][columnOfCard] = "No";
                     }
                 }
-                iterateThroughEachCard();
+                if (desireToWin.equals("Win")) {
+                    iterateThroughEachCard();
+                } else if (desireToWin.equals("Lose")) {
+                    iterateThroughEachCardToLose();
+                } else {
+                    System.out.println("Desire to win not set.");
+                }
             }
         }
     }
@@ -107,10 +133,41 @@ public class PlayBingo2 {
         //System.out.println("Next Card is " + cardCount);
     }
 
+    private static void iterateThroughEachCardToLose() {
+        outerLoop:
+        for (int pullNextNumber = 0; pullNextNumber < numbersCalledForBingo.size(); pullNextNumber++) {
+            for (int rowInCard = 0; rowInCard < 5; rowInCard++) {
+                for (int colInCard = 0; colInCard < 5; colInCard++) {
+                    if (individualBingoCard[rowInCard][colInCard].equals(numbersCalledForBingo.get(pullNextNumber))) {
+                        //System.out.println("Matched " + numbersCalledForBingo.get(pullNextNumber) +
+                        //        " at " + "(" + rowInCard + "," + colInCard + ") with the " +
+                        //        (pullNextNumber + 1) + " number called.");
+                        yesOrNoBingo[rowInCard][colInCard] = "Yes";
+                        //System.out.println(Arrays.deepToString(yesOrNoBingo));
+                        //System.out.println(Arrays.deepToString(individualBingoCard));
+                        if (isBingo()) {
+                            //System.out.println("Bingo! at " + (pullNextNumber + 1));
+                            loseNumber = Integer.parseInt(numbersCalledForBingo.get(pullNextNumber));
+                            countToBingo = pullNextNumber + 1;
+                            //System.out.println("Previous count to Bingo; " + previousCountToBingo);
+                            //System.out.println("Current count to Bingo: " + countToBingo);
+                            compareCardsToLose();
+                            break outerLoop;
+                        }
+                    }
+                }
+            }
+        }
+        //System.out.println("Current Card is " + cardCount);
+        //cardCount++;
+        //System.out.println("Next Card is " + cardCount);
+    }
+
     private static void setPreviousBingoCard() {
         for (int rowOfCard = 0; rowOfCard < 5; rowOfCard++) {
             for (int colOfCard = 0; colOfCard < 5; colOfCard++) {
                 previousBingoCard[rowOfCard][colOfCard] = "Empty";
+                previousLoseWinningBingoCard[rowOfCard][colOfCard] = "Empty";
             }
         }
     }
@@ -150,7 +207,23 @@ public class PlayBingo2 {
         }
     }
 
-    private static void calculateWinningBoard() {
+    private static void compareCardsToLose () {
+        if (previousCountToBingo == 1 || countToBingo > previousCountToBingo) {
+            System.out.println("Previous losing winner: " + Arrays.deepToString(previousLoseWinningBingoCard));
+            System.out.println("Current losing winner: " + Arrays.deepToString(individualBingoCard));
+            for (int i = 0; i < individualBingoCard.length; i++) {
+                System.arraycopy(individualBingoCard[i], 0, previousLoseWinningBingoCard[i], 0,
+                        previousLoseWinningBingoCard[0].length);
+            }
+            previousCountToBingo = countToBingo;
+            int previousLosingNumber = loseNumber;
+            System.out.println("Previous losing winning number: " + previousLosingNumber);
+            previousYesOrNoBingo = yesOrNoBingo;
+            calculateLosingBoard();
+        }
+    }
+
+    private static void calculateWinningBoard () {
         long sumUnmarkedNumbers = 0L;
         for (int rowOfCard = 0; rowOfCard < 5; rowOfCard++) {
             for (int colOfCard = 0; colOfCard < 5; colOfCard++) {
@@ -161,6 +234,23 @@ public class PlayBingo2 {
             }
         }
         sumUnmarkedNumbers *= winningNumber;
-        System.out.println(sumUnmarkedNumbers);
+        System.out.println("Winning board number: " + sumUnmarkedNumbers);
+    }
+
+    /* Day 4 Part 2
+    * Figure out which board will win last and choose that one.
+    */
+    private static void calculateLosingBoard () {
+        long sumUnmarkedNumbers = 0L;
+        for (int rowOfCard = 0; rowOfCard < 5; rowOfCard++) {
+            for (int colOfCard = 0; colOfCard < 5; colOfCard++) {
+                if (previousYesOrNoBingo[rowOfCard][colOfCard].equals("No")) {
+                    sumUnmarkedNumbers += Integer.parseInt(previousLoseWinningBingoCard[rowOfCard][colOfCard]);
+                    //System.out.println(sumUnmarkedNumbers);
+                }
+            }
+        }
+        sumUnmarkedNumbers *= loseNumber;
+        System.out.println("Losing board number: " + sumUnmarkedNumbers);
     }
 }
