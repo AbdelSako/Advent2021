@@ -23,8 +23,6 @@ public class Main {
         //checkBingoCards();
 
         //Day 5 Part 1
-        loadHydrothermalVentsList();
-        getSpanOfHorizontalAndVerticalOnly();
-        countArrayValues();
+        loadHydrothermalVents();
     }
 }
