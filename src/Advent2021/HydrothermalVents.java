@@ -49,7 +49,6 @@ public class HydrothermalVents {
             String nextNumbers = scanner.next(Pattern.compile("\\d+\\D\\d+"));
             String[] split = nextNumbers.split("\\D");
             coordinates.add(i, split);
-            //System.out.println(Arrays.deepToString(coordinates.get(i)));
             i++;
             if (scanner.hasNextLine()) {
                 scanner.skip(Pattern.compile("\\D+"));
@@ -58,53 +57,38 @@ public class HydrothermalVents {
     }
 
     public static void getSpanOfHorizontalAndVerticalOnly() {
-        //compare [x1, *] and [x2, *] to get span of numbers in between
-        //compare [*, y1] and [*, y2]
         for (int i = 0; i < coordinates.size(); i+=2) {
             String[] setOne = coordinates.get(i);
             String[] setTwo = coordinates.get(i + 1);
-            //System.out.println(Arrays.deepToString(setOne));
-            //System.out.println(Arrays.deepToString(setTwo));
-
             int xOne = Integer.parseInt(setOne[0]);
             int xTwo = Integer.parseInt(setTwo[0]);
             int yOne = Integer.parseInt(setOne[1]);
             int yTwo = Integer.parseInt(setTwo[1]);
 
             if (xOne > xTwo && yOne == yTwo) {
-                //System.out.println("Difference of x is " + (xOne - xTwo));
                 for (int j = xOne; j >= xTwo; j--) {
                     chartDangerousAreas[j][yOne] += 1;
-                    //System.out.println(chartDangerousAreas[j][yOne]);
                 }
             } else if (xOne < xTwo && yOne == yTwo) {
-                //System.out.println("Difference of x is " + (xTwo - xOne));
                 for (int j = xTwo; j >= xOne; j--) {
                     chartDangerousAreas[j][yOne] += 1;
-                    //System.out.println(chartDangerousAreas[j][yOne]);
                 }
             } else {
                 //System.out.println("Neither x is bigger.");
             }
 
             if (yOne > yTwo && xOne == xTwo) {
-                //System.out.println("Difference of y is " + (yOne - yTwo));
                 for (int j = yOne; j >= yTwo; j--) {
                     chartDangerousAreas[xOne][j] += 1;
-                    //System.out.println(chartDangerousAreas[xOne][j]);
                 }
             } else if (yOne < yTwo && xOne == xTwo) {
-                //System.out.println("Difference of y is " + (yTwo - yOne));
                 for (int j = yTwo; j >= yOne; j--) {
                     chartDangerousAreas[xOne][j] += 1;
-                    //System.out.println(chartDangerousAreas[xOne][j]);
                 }
             } else {
                 //System.out.println("Neither y is bigger.");
             }
         }
-
-
     }
 
     public static void countArrayValues() {
@@ -113,11 +97,9 @@ public class HydrothermalVents {
             for (int j = 0; j < 1000; j++) {
                 if (chartDangerousAreas[i][j] > 1) {
                     countOfValuesTwoPlus++;
-                    //System.out.println(countOfValuesTwoPlus);
                 }
             }
         }
         System.out.println("The count of points with more than one intersection is " + countOfValuesTwoPlus);
     }
-
 }
