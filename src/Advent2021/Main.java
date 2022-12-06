@@ -2,6 +2,7 @@ package Advent2021;
 
 import java.io.IOException;
 
+import static Advent2021.HydrothermalVents.*;
 import static Advent2021.PlayBingo2.*;
 
 public class Main {
@@ -18,7 +19,12 @@ public class Main {
         //OxygenGeneratorRating.oxygenGeneratorRating();
         //COScrubberRating.coScrubberRating();
 
-        // Day 4 Part 1
-        checkBingoCards();
+        // Day 4 Part 1 and Part 2
+        //checkBingoCards();
+
+        //Day 5 Part 1
+        loadHydrothermalVentsList();
+        getSpanOfHorizontalAndVerticalOnly();
+        countArrayValues();
     }
 }
