@@ -132,10 +132,12 @@ public class HydrothermalVents {
                 newYOne = yOne;
                 System.out.println(slope);
                 System.out.println("The number for xOne is " + xOne + " and yOne is " + yOne);
-                for (int j = xTwo; j < xOne - 1; j++) {
+                chartDangerousAreas[xOne][yOne] += 1;
+                for (int j = xTwo; j < xOne; j++) {
                     newXOne -= slope;
                     newYOne -= slope;
                     System.out.println("newXOne is " + newXOne + " and newYOne is " + newYOne);
+                    chartDangerousAreas[xOne][yOne] += 1;
                     chartDangerousAreas[newXOne][newYOne] += 1;
                 }
                 System.out.println("The number for xTwo is " + xTwo + " and yTwo is " + yTwo);
@@ -145,7 +147,8 @@ public class HydrothermalVents {
                 newYOne = yOne;
                 System.out.println(slope);
                 System.out.println("The number for xOne is " + xOne + " and yOne is " + yOne);
-                for (int j = xOne; j < xTwo - 1; j++) {
+                chartDangerousAreas[xOne][yOne] += 1;
+                for (int j = xOne; j < xTwo; j++) {
                     newXOne += slope;
                     newYOne += slope;
                     System.out.println("newXOne is " + newXOne + " and newYOne is " + newYOne);
@@ -158,7 +161,8 @@ public class HydrothermalVents {
                 newYOne = yOne;
                 System.out.println(slope);
                 System.out.println("The number for xOne is " + xOne + " and yOne is " + yOne);
-                for (int j = xTwo; j < xOne - 1; j++) {
+                chartDangerousAreas[xOne][yOne] += 1;
+                for (int j = xTwo; j < xOne; j++) {
                     newXOne += slope;
                     newYOne -= slope;
                     System.out.println("newXOne is " + newXOne + " and newYOne is " + newYOne);
@@ -171,7 +175,8 @@ public class HydrothermalVents {
                 newYOne = yOne;
                 System.out.println(slope);
                 System.out.println("The number for xOne is " + xOne + " and yOne is " + yOne);
-                for (int j = xOne; j < xTwo - 1; j++) {
+                chartDangerousAreas[xOne][yOne] += 1;
+                for (int j = xOne; j < xTwo; j++) {
                     newXOne -= slope;
                     newYOne += slope;
                     System.out.println("newXOne is " + newXOne + " and newYOne is " + newYOne);
