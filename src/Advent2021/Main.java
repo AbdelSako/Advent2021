@@ -24,5 +24,7 @@ public class Main {
 
         //Day 5 Part 1
         loadHydrothermalVents();
+        
+        //1,2 check;
     }
 }
